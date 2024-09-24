@@ -1,3 +1,5 @@
+// didn't get to
+
 const connection = require("../config/connection");
 const { Course, Student } = require("../models");
 const { getRandomName, getRandomAssignments } = require("./data");

@@ -11,7 +11,15 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      // Use a getter method to format the timestamp on query
+      get: (timestamp) =>
+        new Date(timestamp).toLocaleString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }),
     },
     username: {
       type: String,
@@ -33,13 +41,13 @@ const thoughtSchema = new Schema(
 );
 
 userSchema
+  // Retrieves length of thought's 'reacitons' array field on query
   .virtual("reactionCount")
   // Getter
   .get(function () {
     return thoughts.length;
   });
 
-// Initialize our User model
 const Thought = model("thought", thoughtSchema);
 
 module.exports = Thought;
