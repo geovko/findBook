@@ -5,8 +5,7 @@
 #   - userController
 #       - Good
 #   - thoughtController
-#       - Good: getAll, create, getSingle, update, 
-#       - Not Yet: delete, addReact, deleteReact
+#       - Good
 # utils
 #   - 
 # api routes
