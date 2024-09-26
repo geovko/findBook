@@ -40,12 +40,12 @@ const thoughtSchema = new Schema(
   }
 );
 
-userSchema
-  // Retrieves length of thought's 'reacitons' array field on query
+thoughtSchema
+  // Retrieves length of thought's 'reactions' array field on query
   .virtual("reactionCount")
   // Getter
   .get(function () {
-    return thoughts.length;
+    return this.reactions.length;
   });
 
 const Thought = model("thought", thoughtSchema);
