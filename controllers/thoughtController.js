@@ -92,7 +92,7 @@ module.exports = {
   // Delete a thought by id and remove them from the thoughts array
   async deleteThought(req, res) {
     try {
-      const thought = await Thought.findOneAndRemove({
+      const thought = await Thought.findOneAndDelete({
         _id: req.params.thoughtId,
       });
 
@@ -100,15 +100,15 @@ module.exports = {
         return res.status(404).json({ message: "No such thought exists" });
       }
 
-      const user = await User.findOneAndUpdate(
-        { users: req.params.userId },
-        { $pull: { users: req.params.userId } },
+      const user = await User.updateOne(
+        { thoughts: req.params.thoughtId },
+        { $pull: { thoughts: req.params.thoughtId } },
         { new: true }
       );
 
       if (!user) {
         return res.status(404).json({
-          message: "Thought deleted, but no user found",
+          message: "Could not find thought's owner",
         });
       }
 
@@ -121,13 +121,18 @@ module.exports = {
 
   // Add a reaction to a thought
   async addReaction(req, res) {
-    console.log("Adding a reaction");
-    console.log(req.body);
-
+    /* 
+    {
+      "reactionBody": "Wowie.",
+      "username": "Jackie"
+    }
+    */
     try {
+      const { reactionBody, username } = req.body;
+
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
-        { $addToSet: { reaction: req.body } },
+        { $push: { reactions: { reactionBody, username } } },
         { new: true }
       );
 
@@ -147,7 +152,7 @@ module.exports = {
     try {
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
-        { $pull: { reacion: { reacionId: req.params.reactionId } } },
+        { $pull: { reactions: { reactionId: req.params.reactionId } } },
         { new: true }
       );
 
