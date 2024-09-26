@@ -41,11 +41,11 @@ const userSchema = new Schema(
 );
 
 userSchema
-  // Retrives length of user's 'friends' array field on query
+  // Retrieves length of user's 'friends' array field on query
   .virtual("friendCount")
   // Getter
   .get(function () {
-    return friends.length;
+    return this.friends.length;
   });
 
 const User = model("user", userSchema);

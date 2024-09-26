@@ -37,15 +37,41 @@ module.exports = {
   },
   // create a new thought
   async createThought(req, res) {
+    /* 
+    {
+      "thoughtText": "I don't think this works.",
+      "username": "Echidna"
+    }
+    */
     try {
       const thought = await Thought.create(req.body);
-      res.json(thought);
+      if (thought) {
+        const user = await User.findOneAndUpdate(
+          { username: req.body.username },
+          { $addToSet: { thoughts: thought } },
+          { new: true }
+        );
+
+        if (!user) {
+          return res.status(404).json({ message: "No such user exists" });
+        }
+
+        res.json(thought);
+      } else {
+        return res.status(404).json({ message: "Could not form a thought..." });
+      }
     } catch (err) {
       res.status(500).json(err);
     }
   },
   // update a thought by id
   async updateThought(req, res) {
+    /* 
+    {
+      "thoughtText": "Maybe it does work...",
+      "username": "Echidna"
+    }
+    */
     try {
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },

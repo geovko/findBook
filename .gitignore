@@ -2,7 +2,11 @@
 # Readme
 #   - work in progress
 # controllers - thought + user
-#   - userController - how to pull user from multiple friends lists?
+#   - userController
+#       - Good
+#   - thoughtController
+#       - Good: getAll, create, getSingle, update, 
+#       - Not Yet: delete, addReact, deleteReact
 # utils
 #   - 
 # api routes
