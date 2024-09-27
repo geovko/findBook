@@ -1,5 +1,3 @@
-// need to check once more
-
 const { User } = require("../models");
 
 module.exports = {
